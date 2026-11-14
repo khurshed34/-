@@ -13,10 +13,10 @@ jobs:
     timeout-minutes: 350
 
     steps:
-      - name: Get repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -26,19 +26,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Find and start bot
+      - name: Start Telegram Bot
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           ADMIN_ID: ${{ secrets.ADMIN_ID }}
-        run: |
-          echo "Checking repository files..."
-          ls -la
-          BOT_FILE=$(find . -type f -name "turbosave_bot.py" -print -quit)
-
-          if [ -z "$BOT_FILE" ]; then
-            echo "ERROR: turbosave_bot.py not found!"
-            exit 1
-          fi
-
-          echo "Starting: $BOT_FILE"
-          python "$BOT_FILE"
+        run: python main.py
