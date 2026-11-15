@@ -6,6 +6,12 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: "0 */5 * * *"
+
+concurrency:
+  group: turbosave-bot
+  cancel-in-progress: false
 
 jobs:
   run-bot:
